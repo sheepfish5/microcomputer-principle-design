@@ -14,37 +14,37 @@
 #define FOUR_WORD_LEN 128
 #define THREE_WORD_LEN 96
 
-/* "ä¸‹ä¸€ç«™  " length = 128B */
+/* "ÏÂÒ»Õ¾  " length = 128B */
 extern unsigned char xyz[];
 
-/* "  åˆ°äº†" length=96B */
+/* "  µ½ÁË" length=96B */
 extern unsigned char dl[];
 
-/* "ç«è½¦ç«™" length=96B */
+/* "»ğ³µÕ¾" length=96B */
 extern unsigned char hcz[];
 
-/* "æ–‡æµ·é…’åº—" length=128B */
+/* "ÎÄº£¾Æµê" length=128B */
 extern unsigned char whjd[];
 
-/* "å¼ å®¶åŠ" length=96B */
+/* "ÕÅ¼Ò·»" length=96B */
 extern unsigned char zjf[];
 
-/* "èµ£æ±Ÿå¤§æ¡¥" length=128B */
+/* "¸Ó½­´óÇÅ" length=128B */
 extern unsigned char gjdq[];
 
-/* "å²­ä¸Šæ‘" length=96B */
+/* "ÁëÉÏ´å" length=96B */
 extern unsigned char lsc[];
 
-/* "å¤©é™…å…‰ç”µ" length=128B */
+/* "Ìì¼Ê¹âµç" length=128B */
 extern unsigned char tjgd[];
 
-/* "ä¸­å›½çŸ³åŒ–" length=128B */
+/* "ÖĞ¹úÊ¯»¯" length=128B */
 extern unsigned char zgsh[];
 
-/* "ä»å®‰åŒ»é™¢" length=128B */
+/* "ÈÊ°²Ò½Ôº" length=128B */
 extern unsigned char rayy[];
 
-/* "æ¬¢è¿ä½¿ç”¨æŠ¥ç«™å™¨" length=224B */
+/* "»¶Ó­Ê¹ÓÃ±¨Õ¾Æ÷" length=224B */
 extern unsigned char hysybzq[];
 
 #endif

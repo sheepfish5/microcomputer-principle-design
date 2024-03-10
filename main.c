@@ -1,9 +1,9 @@
 /********************************************************		
-*		12864J液晶显示器
-*12864J：1.图形点阵液晶显示器，分辨率为128X64。可显示图形
-*	   和8×4个(16×16点阵)汉字。
-*	 2.采用8位数据总线并行输入输出和8条控制线。
-* 	 3.指令简单，7种指令
+*		12864JҺ����ʾ��
+*12864J��1.ͼ�ε���Һ����ʾ�����ֱ���Ϊ128X64������ʾͼ��
+*	   ��8��4��(16��16����)���֡�
+*	 2.����8λ�������߲������������8�������ߡ�
+* 	 3.ָ��򵥣�7��ָ��
 ********************************************************/
 
 #include "12864.h"
@@ -11,83 +11,83 @@
 #include "key_board_8255.h"
 #include "word_lib.h"
 
-/* Display "欢迎使用报站器" */
+/* Display "��ӭʹ�ñ�վ��" */
 void DisHYSY() {
 	Dis(2, 0, LEFT_SCREEN, FOUR_WORD_LEN, hysybzq);
 	Dis(2, 0, RIGHT_SCREEN, THREE_WORD_LEN, &hysybzq[4*WORD_SIZE]);
 }
 
-/* "出站" function */
+/* "��վ" function */
 void chuzhan(u8 station) {
 	u8 row = 2;
 	LCD_INIT();
-	Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, xyz);  /* 下一站 */
+	Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, xyz);  /* ��һվ */
 	// if (station == 0) {
-	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* �ĺ��Ƶ� */
 	// } else if (station == 1) {
-	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* �żҷ� */
 	// } else if (station == 2) {
-	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* �ӽ����� */
 	// } else if (station == 3) {
-	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* ���ϴ� */
 	// }
 
 	switch (station)
 	{
 	case 0:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* �ĺ��Ƶ� */
 		break;
 	case 1:
-		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* �żҷ� */
 		break;
 	case 2:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* �ӽ����� */
 		break;
 	case 3:
-		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* ���ϴ� */
 		break;
 	case 4:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
+		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, tjgd);  /* ��ʹ�� */
 		break;
 	case 5:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
+		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, zgsh);  /* �й�ʯ�� */
 		break;
 	case 6:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
+		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, rayy);  /* �ʰ�ҽԺ */
 		break;
 	}
 	DelayTime();
 	DelayTime();
 }
-/* "进站" function */
+/* "��վ" function */
 void jinzhan(u8 station) {
 	u8 row = 2;
 	LCD_INIT();
 	switch (station)
 	{
 	case 0:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, whjd);  /* �ĺ��Ƶ� */
 		break;
 	case 1:
-		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, zjf);  /* �żҷ� */
 		break;
 	case 2:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, gjdq);  /* �ӽ����� */
 		break;
 	case 3:
-		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, lsc);  /* ���ϴ� */
 		break;
 	case 4:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
+		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, tjgd);  /* ��ʹ�� */
 		break;
 	case 5:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
+		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, zgsh);  /* �й�ʯ�� */
 		break;
 	case 6:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
+		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, rayy);  /* �ʰ�ҽԺ */
 		break;
 	}
-	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);  /* "  到了" */
+	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);  /* "  ����" */
 	DelayTime();
 	DelayTime();
 }
@@ -107,17 +107,17 @@ main()
 		if (scan_any_pushed()) {
 			key_value = get_key_value();
 			// if (key_value == 2) {
-			// 	/* 出站 */
+			// 	/* ��վ */
 			// 	chuzhan(station);
 			// }
 			switch (key_value)
 			{
 			case 2:
-				/* 出站 */
+				/* ��վ */
 				chuzhan(station);
 				break;
 			case 6:
-				/* 进站 */
+				/* ��վ */
 				jinzhan(station);
 				station++;
 				station &= 0x7;

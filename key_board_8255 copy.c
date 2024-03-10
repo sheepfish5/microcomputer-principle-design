@@ -6,10 +6,10 @@
 #define u8	unsigned char 
 #define u16	unsigned int 
 
-extern char inportb( unsigned int );								//è¯»I/O
+extern char inportb( unsigned int );								//¶ÁI/O
 extern void outportb( unsigned int, char);
 
-u8 buffer[8] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};	//ç½®æ˜¾ç¤ºç¼“å†²å™¨åˆå€¼
+u8 buffer[8] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};	//ÖÃÏÔÊ¾»º³åÆ÷³õÖµ
 
 void delay(u16 ms)
 {
@@ -22,7 +22,7 @@ void delay(u16 ms)
 	}
 }
 
-//æ‰«ææ•°ç ç®¡
+//É¨ÃèÊıÂë¹Ü
 void DIR()
 {
 	u8 i, dig = 0xfe;
@@ -31,9 +31,9 @@ void DIR()
 
 	for (i = 0 ; i < 8; i++)
 	{
-		outportb(PA_Addr, SegArray[buffer[i]]);		//æ®µæ•°æ®
-		outportb(PB_Addr, dig);						//é€‰æ‹©æ•°ç ç®¡
-		delay(3);									//å»¶è¿Ÿ3ms
+		outportb(PA_Addr, SegArray[buffer[i]]);		//¶ÎÊı¾İ
+		outportb(PB_Addr, dig);						//Ñ¡ÔñÊıÂë¹Ü
+		delay(3);									//ÑÓ³Ù3ms
 		outportb(PB_Addr, 0xff);
 		dig = ((dig << 1) | 1);
 	}
@@ -53,7 +53,7 @@ u8 key()
 	u8 bNoKey = 1;
 	while(bNoKey)
 	{
-		if (scan_any_pushed() == 0)		//è°ƒç”¨åˆ¤æœ‰æ— é—­åˆé”®å‡½æ•°
+		if (scan_any_pushed() == 0)		//µ÷ÓÃÅĞÓĞÎŞ±ÕºÏ¼üº¯Êı
 		{
 			DIR();
 			DIR();
@@ -61,7 +61,7 @@ u8 key()
 		}
 		DIR();
 		DIR();
-		if (scan_any_pushed() == 0)		//è°ƒç”¨åˆ¤æœ‰æ— é—­åˆé”®å‡½æ•°
+		if (scan_any_pushed() == 0)		//µ÷ÓÃÅĞÓĞÎŞ±ÕºÏ¼üº¯Êı
 			continue;
 		i = 0xfe;
 		keyResult = 0;
@@ -72,19 +72,19 @@ u8 key()
 			if (j & 3)
 			{
 				bNoKey = 0;
-				if (j & 2)				//1è¡Œæœ‰é”®é—­åˆ
+				if (j & 2)				//1ĞĞÓĞ¼ü±ÕºÏ
 					keyResult += 8;
 			}
-			else						//æ²¡æœ‰é”®æŒ‰ä¸‹
+			else						//Ã»ÓĞ¼ü°´ÏÂ
 			{
-				keyResult++;			//åˆ—è®¡æ•°å™¨åŠ 1
+				keyResult++;			//ÁĞ¼ÆÊıÆ÷¼Ó1
 				i = ((i << 1) | 1);
 			}
 		}while(bNoKey  && (i != 0xff));
 	}
 	if (!bNoKey)
 	{
-		while(scan_any_pushed())		//åˆ¤æ–­é‡Šæ”¾å¦
+		while(scan_any_pushed())		//ÅĞ¶ÏÊÍ·Å·ñ
 		{
 			DIR();
 		}
@@ -95,7 +95,7 @@ u8 key()
 void main()
 {
 	u8 pos = 0;
-	outportb(CON_Addr, 0x89);	//PAã€PBè¾“å‡ºï¼ŒPCè¾“å…¥
+	outportb(CON_Addr, 0x89);	//PA¡¢PBÊä³ö£¬PCÊäÈë
 	while(1)
 	{
 		buffer[pos++] = key();
