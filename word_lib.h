@@ -44,4 +44,7 @@ extern unsigned char zgsh[];
 /* "仁安医院" length=128B */
 extern unsigned char rayy[];
 
+/* "欢迎使用报站器" length=224B */
+extern unsigned char hysybzq[];
+
 #endif
