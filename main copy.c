@@ -7,9 +7,6 @@
 ********************************************************/
 
 #include "12864.h"
-#include "basic.h"
-#include "key_board_8255.h"
-#include "word_lib.h"
 
 //--  文字:  星  --
 unsigned char Line1_1[] = {		
@@ -146,120 +143,21 @@ void DisSheepfish5()
 	ByteDisR(0, 8, n_five);
 }
 
-/* Display "欢迎使用报站器" */
-void DisHYSY() {
-	Dis(2, 0, LEFT_SCREEN, FOUR_WORD_LEN, hysybzq);
-	Dis(2, 0, RIGHT_SCREEN, THREE_WORD_LEN, &hysybzq[4*WORD_SIZE]);
-}
-
-/* "出站" function */
-void chuzhan(u8 station) {
-	u8 row = 2;
-	LCD_INIT();
-	Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, xyz);  /* 下一站 */
-	// if (station == 0) {
-	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
-	// } else if (station == 1) {
-	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
-	// } else if (station == 2) {
-	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
-	// } else if (station == 3) {
-	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
-	// }
-
-	switch (station)
-	{
-	case 0:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
-		break;
-	case 1:
-		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
-		break;
-	case 2:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
-		break;
-	case 3:
-		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
-		break;
-	case 4:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
-		break;
-	case 5:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
-		break;
-	case 6:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
-		break;
-	}
-	DelayTime();
-	DelayTime();
-}
-/* "进站" function */
-void jinzhan(u8 station) {
-	u8 row = 2;
-	LCD_INIT();
-	switch (station)
-	{
-	case 0:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
-		break;
-	case 1:
-		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
-		break;
-	case 2:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
-		break;
-	case 3:
-		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
-		break;
-	case 4:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
-		break;
-	case 5:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
-		break;
-	case 6:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
-		break;
-	}
-	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);  /* "  到了" */
-	DelayTime();
-	DelayTime();
-}
-
 main()
 {
-	/* start */
-	init8255();	/* initialize 8255 */
-	LCD_INIT();
-	DisHYSY();
-	DelayTime();
-
-	u8 station = 0;
-	u8 key_value = 0;
 	while (1)
 	{
-		if (scan_any_pushed()) {
-			key_value = get_key_value();
-			// if (key_value == 2) {
-			// 	/* 出站 */
-			// 	chuzhan(station);
-			// }
-			switch (key_value)
-			{
-			case 2:
-				/* 出站 */
-				chuzhan(station);
-				break;
-			case 6:
-				/* 进站 */
-				jinzhan(station);
-				station++;
-				station &= 0x7;
-				break;
-			}
-		}
+		LCD_INIT();					//液晶初始化
+		DelayTime();				//延时
+		//DisLine1();					//第2行显示"星研电子"
+		//DelayTime();
+		//DisLine2();					//第3行显示"STAR ES51PRO"
+		//DelayTime();
+		//DisLine3();					//第4行显示"欢迎使用"		
+		//DelayTime();
+		
+		DisSheepfish5();			// display my name 
+		DelayTime();
 	}
-	
 }
 

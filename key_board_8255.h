@@ -11,6 +11,9 @@
 
 #define NO_KEY_PUSHED 0xff
 
+/* initialize 8255 */
+void init8255();
+
 /* delay the specific millisecond */
 void delay(u16 ms);
 

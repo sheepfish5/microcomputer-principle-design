@@ -1,8 +1,15 @@
 #include "key_board_8255.h"
 #include "basic.h"
 
+#define INIT8255 0x81  /* 1 000 0 00 1 */
+
 #define IS_PUSHED (~inportb(PC_Addr) & 1)  /* 1 stands some key pushed while 0 stands no */
 #define SCAN_A(i) (outportb(PB_Addr, ~((u8)1 << i)))  /* set column Ai to 0 while others are 1 */
+
+/* initialize 8255 */
+void init8255() {
+	outportb(CON_Addr, INIT8255);
+}
 
 void delay(u16 ms)
 {
