@@ -229,3 +229,19 @@ void Dis(u8 x, u8 y, u8 flagLR, u8 wordSize, unsigned char *ptr) {
 void DisDL() {
 	Dis(2, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);
 }
+
+/* Display a image on the left LCD */
+void DisIMG() {
+	u8 i = 0, j = 0;
+	for (; i<8; i++) {
+		LineDisL(i, 0, &myImg[i*64]);
+	}
+}
+
+/* Display a image on the right LCD */
+void DisIMG2() {
+	u8 i = 0, j = 0;
+	for (; i<8; i++) {
+		LineDisR(i, 0, &myImg2[i*64]);
+	}
+}

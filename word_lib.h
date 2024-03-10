@@ -48,6 +48,9 @@ extern unsigned char rayy[];
 extern unsigned char hysybzq[];
 
 /* logo image 64x64 */
-extern unsigned char myLogo[];
+extern unsigned char myImg[];
+
+/* another image 64x64 */
+unsigned char myImg2[];
 
 #endif
