@@ -2,6 +2,15 @@
 #ifndef WORD_LIB_H
 #define WORD_LIB_H
 
+#define WORD_SIZE 32  /* a Chinese word is 32-byte large */
+#define BYTE_SIZE 16  /* an ascii word, i.e. byte, is 16-byte large */
+
+#define WORD_WIDE 16
+#define WORD_HIGH 16
+
+#define BYTE_WIDE 8
+#define BYTE_HIGH 8
+
 #define FOUR_WORD_LEN 128
 #define THREE_WORD_LEN 96
 

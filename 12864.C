@@ -7,6 +7,13 @@
 ********************************************************/
 
 #include "12864.h"
+#include "word_lib.h"
+
+#define u8 unsigned char
+#define u16	unsigned int 
+
+extern void outportb( unsigned int, char);
+extern char inportb( unsigned int );
 
 //***************************************
 //基本控制		
@@ -131,7 +138,9 @@ void WordDisL(unsigned char x, unsigned char y,unsigned char * pt)
 	DisplayL(pt+16, 16);	//显示下半行数据
 }
 
-//清屏
+/* 
+ * clear both screens by setting all bits to 0
+ */
 void LCDClear()
 {
 //清左半屏
@@ -158,7 +167,7 @@ void LCDClear()
 	}
 }
 
-//液晶初始化	
+/* initialize both sreens by setting all bits to 0 */	
 void LCD_INIT()
 {
 	WRComL(0x3e);			//初始化左半屏，关显示
@@ -182,3 +191,45 @@ void DelayTime()
 	}
 }
 
+/* Display "下一站  " on the left 2nd row */
+void DisXYZ()
+{
+	u8 rowNo = 2;
+	WordDisL(rowNo, 0, &xyz[0]);  /* 下 */
+	WordDisL(rowNo, WORD_WIDE, &xyz[WORD_SIZE]);  /* 一 */
+	WordDisL(rowNo, 2*WORD_WIDE, &xyz[WORD_SIZE*2]); /* 站 */
+	WordDisL(rowNo, 3*WORD_WIDE, &xyz[WORD_SIZE*3]); /* blank */
+}
+
+/* 
+ * (x,y): start coordinate, y can be set to 0
+ * wordSize: FOUR_WORD_LEN or THREE_WORD_LEN
+ * flagLR: LEFT_SCREEN or RIGHT_SCREEN
+ * ptr: point to the content
+ */
+void Dis(u8 x, u8 y, u8 flagLR, u8 wordSize, unsigned char *ptr) {
+	if (flagLR == LEFT_SCREEN && wordSize == THREE_WORD_LEN) {
+		WordDisL(x, y, &ptr[0]);
+		WordDisL(x, y+WORD_WIDE, &ptr[WORD_SIZE]);
+		WordDisL(x, y+WORD_WIDE*2, &ptr[WORD_SIZE*2]);
+	} else if (flagLR == LEFT_SCREEN && wordSize == FOUR_WORD_LEN) {
+		WordDisL(x, y, &ptr[0]);
+		WordDisL(x, y+WORD_WIDE, &ptr[WORD_SIZE]);
+		WordDisL(x, y+WORD_WIDE*2, &ptr[WORD_SIZE*2]);
+		WordDisL(x, y+WORD_WIDE*3, &ptr[WORD_SIZE*3]);
+	} else if (flagLR == RIGHT_SCREEN && wordSize == THREE_WORD_LEN) {
+		WordDisR(x, y, &ptr[0]);
+		WordDisR(x, y+WORD_WIDE, &ptr[WORD_SIZE]);
+		WordDisR(x, y+WORD_WIDE*2, &ptr[WORD_SIZE*2]);
+	} else if (flagLR == RIGHT_SCREEN && wordSize == FOUR_WORD_LEN) {
+		WordDisR(x, y, &ptr[0]);
+		WordDisR(x, y+WORD_WIDE, &ptr[WORD_SIZE]);
+		WordDisR(x, y+WORD_WIDE*2, &ptr[WORD_SIZE*2]);
+		WordDisR(x, y+WORD_WIDE*3, &ptr[WORD_SIZE*3]);
+	}
+}
+
+/* Display "  到了" on the right 2nd row */
+void DisDL() {
+	Dis(2, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);
+}

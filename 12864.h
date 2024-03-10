@@ -17,13 +17,12 @@
 #define RD_BUSY_AD 		0x261				//查忙地址
 #define RD_DATA_AD 		0x263				//读数据地址
 
-#define X 			0xB8							//起始显示行基址
-#define Y			0x40							//起始显示列基址
-#define FirstLine	0xC0							//起始显示行
+#define X 			0xB8			/* instruction: y+Y, set the Y coordinate to y */
+#define Y			0x40			/* instruction: x+X, set the X coordinate to x */
+#define FirstLine	0xC0			/* instruction: set Z to 0 */
 
-extern void outportb( unsigned int, char);
-extern char inportb( unsigned int );
-
+#define LEFT_SCREEN 1
+#define RIGHT_SCREEN 0
 
 //***************************************
 //基本控制		
