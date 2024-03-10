@@ -47,4 +47,7 @@ extern unsigned char rayy[];
 /* "»¶Ó­Ê¹ÓÃ±¨Õ¾Æ÷" length=224B */
 extern unsigned char hysybzq[];
 
+/* logo image 64x64 */
+extern unsigned char myLogo[];
+
 #endif
