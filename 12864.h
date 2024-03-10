@@ -6,6 +6,10 @@
 * 	 3.指令简单，7种指令
 ********************************************************/
 
+#ifndef H12864_H
+
+#define H12864_H
+
 #define WR_COM_AD_L		0x264				//写左半屏指令地址
 #define WR_COM_AD_R		0x260				//写右半屏指令地址
 #define WR_DATA_AD_L 	0x266				//写左半屏数据地址	
@@ -82,4 +86,4 @@ void LCD_INIT();
 void DelayTime();
 
 
-
+#endif

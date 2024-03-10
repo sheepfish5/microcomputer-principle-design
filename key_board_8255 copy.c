@@ -39,7 +39,7 @@ void DIR()
 	}
 }
 
-u8 AllKey()
+u8 scan_any_pushed()
 {
 	u8 i;
 	outportb(PB_Addr, 0x0);
@@ -53,7 +53,7 @@ u8 key()
 	u8 bNoKey = 1;
 	while(bNoKey)
 	{
-		if (AllKey() == 0)		//调用判有无闭合键函数
+		if (scan_any_pushed() == 0)		//调用判有无闭合键函数
 		{
 			DIR();
 			DIR();
@@ -61,7 +61,7 @@ u8 key()
 		}
 		DIR();
 		DIR();
-		if (AllKey() == 0)		//调用判有无闭合键函数
+		if (scan_any_pushed() == 0)		//调用判有无闭合键函数
 			continue;
 		i = 0xfe;
 		keyResult = 0;
@@ -84,7 +84,7 @@ u8 key()
 	}
 	if (!bNoKey)
 	{
-		while(AllKey())		//判断释放否
+		while(scan_any_pushed())		//判断释放否
 		{
 			DIR();
 		}
