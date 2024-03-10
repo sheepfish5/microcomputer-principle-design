@@ -1,3 +1,4 @@
+#include "basic.h"
 
 #ifndef KEY_BOARD_8255_H
 
@@ -7,9 +8,6 @@
 #define PB_Addr		0x271
 #define PC_Addr		0x272
 #define	CON_Addr	0x273
-
-#define u8	unsigned char 
-#define u16	unsigned int 
 
 #define NO_KEY_PUSHED 0xff
 

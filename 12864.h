@@ -6,6 +6,8 @@
 * 	 3.指令简单，7种指令
 ********************************************************/
 
+#include "basic.h"
+
 #ifndef H12864_H
 
 #define H12864_H
@@ -84,5 +86,18 @@ void LCD_INIT();
 //延时程序
 void DelayTime();
 
+/* Display "下一站  " on the left 2nd row */
+void DisXYZ();
+
+/* 
+ * (x,y): start coordinate, y can be set to 0
+ * wordSize: FOUR_WORD_LEN or THREE_WORD_LEN
+ * flagLR: LEFT_SCREEN or RIGHT_SCREEN
+ * ptr: point to the content
+ */
+void Dis(u8 x, u8 y, u8 flagLR, u8 wordSize, unsigned char *ptr);
+
+/* Display "  到了" on the right 2nd row */
+void DisDL();
 
 #endif

@@ -8,12 +8,8 @@
 
 #include "12864.h"
 #include "word_lib.h"
+#include "basic.h"
 
-#define u8 unsigned char
-#define u16	unsigned int 
-
-extern void outportb( unsigned int, char);
-extern char inportb( unsigned int );
 
 //***************************************
 //基本控制		

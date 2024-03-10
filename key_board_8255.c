@@ -1,7 +1,5 @@
 #include "key_board_8255.h"
-
-extern char inportb( unsigned int );								//读I/O
-extern void outportb( unsigned int, char);
+#include "basic.h"
 
 #define IS_PUSHED (~inportb(PC_Addr) & 1)  /* 1 stands some key pushed while 0 stands no */
 #define SCAN_A(i) (outportb(PB_Addr, ~((u8)1 << i)))  /* set column Ai to 0 while others are 1 */
