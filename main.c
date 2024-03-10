@@ -11,6 +11,9 @@
 #include "key_board_8255.h"
 #include "word_lib.h"
 
+#define D_ORDER 1
+#define D_REVERSE 0
+
 /* Display "欢迎使用报站器" */
 void DisHYSY() {
 	Dis(2, 0, LEFT_SCREEN, FOUR_WORD_LEN, hysybzq);
@@ -18,7 +21,7 @@ void DisHYSY() {
 }
 
 /* "出站" function */
-void chuzhan(u8 station) {
+void chuzhan(u8 station, u8 directioin) {
 	u8 row = 2;
 	LCD_INIT();
 	Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, xyz);  /* 下一站 */
@@ -31,61 +34,115 @@ void chuzhan(u8 station) {
 	// } else if (station == 3) {
 	// 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
 	// }
-
-	switch (station)
+	if (directioin == D_ORDER)
 	{
-	case 0:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
-		break;
-	case 1:
-		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
-		break;
-	case 2:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
-		break;
-	case 3:
-		Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
-		break;
-	case 4:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
-		break;
-	case 5:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
-		break;
-	case 6:
-		Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
-		break;
+		/* in order: from 0火车站 to 7仁安医院 */
+		switch (station)
+		{
+		case 0:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+			break;
+		case 1:
+			Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+			break;
+		case 2:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+			break;
+		case 3:
+			Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+			break;
+		case 4:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
+			break;
+		case 5:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
+			break;
+		case 6:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
+			break;
+		}
+	} else {
+		/* reverse order: from 7仁安医院 to 0火车站 */
+		switch (station)
+		{
+		case 1:
+			Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, hcz);  /* 火车站 */
+			break;
+		case 2:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+			break;
+		case 3:
+			Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+			break;
+		case 4:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+			break;
+		case 5:
+			Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+			break;
+		case 6:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
+			break;
+		case 7:
+			Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
+		}
 	}
 	DelayTime();
 	DelayTime();
 }
 /* "进站" function */
-void jinzhan(u8 station) {
+void jinzhan(u8 station, u8 direction) {
 	u8 row = 2;
 	LCD_INIT();
-	switch (station)
-	{
-	case 0:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
-		break;
-	case 1:
-		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
-		break;
-	case 2:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
-		break;
-	case 3:
-		Dis(row, 0, FOUR_WORD_LEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
-		break;
-	case 4:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
-		break;
-	case 5:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
-		break;
-	case 6:
-		Dis(row, 0, FOUR_WORD_LEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
-		break;
+	if (direction == D_ORDER) {
+		switch (station)
+		{
+		case 0:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+			break;
+		case 1:
+			Dis(row, 0, LEFT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+			break;
+		case 2:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+			break;
+		case 3:
+			Dis(row, 0, LEFT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+			break;
+		case 4:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
+			break;
+		case 5:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
+			break;
+		case 6:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, rayy);  /* 仁安医院 */
+			break;
+		}
+	} else {
+		switch (station)
+		{
+		case 1:
+			Dis(row, 0, LEFT_SCREEN, THREE_WORD_LEN, hcz);  /* 火车站 */
+			break;
+		case 2:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
+			break;
+		case 3:
+			Dis(row, 0, LEFT_SCREEN, THREE_WORD_LEN, zjf);  /* 张家坊 */
+			break;
+		case 4:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, gjdq);  /* 赣江大桥 */
+			break;
+		case 5:
+			Dis(row, 0, LEFT_SCREEN, THREE_WORD_LEN, lsc);  /* 岭上村 */
+			break;
+		case 6:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, tjgd);  /* 天际光电 */
+			break;
+		case 7:
+			Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, zgsh);  /* 中国石化 */
+		}
 	}
 	Dis(row, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);  /* "  到了" */
 	DelayTime();
@@ -102,6 +159,7 @@ main()
 
 	u8 station = 0;
 	u8 key_value = 0;
+	u8 direction = D_ORDER;
 	while (1)
 	{
 		if (scan_any_pushed()) {
@@ -114,13 +172,17 @@ main()
 			{
 			case 2:
 				/* 出站 */
-				chuzhan(station);
+				chuzhan(station, direction);
 				break;
 			case 6:
 				/* 进站 */
-				jinzhan(station);
+				jinzhan(station, direction);
 				station++;
 				station &= 0x7;
+				break;
+			case 0:
+				/* 上/下行 */
+				direction != direction;  /* reverse the direction */
 				break;
 			}
 		}
