@@ -1,4 +1,4 @@
-#include "key_board_8255.h"
+#include "kb_8255.h"
 #include "basic.h"
 
 #define INIT8255 0x81  /* 1 000 0 00 1 */

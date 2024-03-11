@@ -232,7 +232,7 @@ void DisDL() {
 
 /* Display a image on the left LCD */
 void DisIMG() {
-	u8 i = 0, j = 0;
+	u16 i = 0;
 	for (; i<8; i++) {
 		LineDisL(i, 0, &myImg[i*64]);
 	}
@@ -240,8 +240,154 @@ void DisIMG() {
 
 /* Display a image on the right LCD */
 void DisIMG2() {
-	u8 i = 0, j = 0;
+	u16 i = 0;
 	for (; i<8; i++) {
 		LineDisR(i, 0, &myImg2[i*64]);
+	}
+}
+
+/* the functions below are about controling message to roll from right to left */
+
+/* 
+ * display left n column of a two-line Chinese word at (x, y) on the left screen
+ * constraint y+n <= 64
+ */
+void WordNcDisL(u8 x, u8 y, u8 n, unsigned char *ptr) {
+	SETXYL(x, y);
+	DisplayL(ptr, n);
+	SETXYL(x+1, y);
+	DisplayL(ptr+WORD_WIDE, n);
+}
+
+/* 
+ * display left n column of a two-line Chinese word at (x, y) on the right screen
+ * constraint y+n <= 64
+ */
+void WordNcDisR(u8 x, u8 y, u8 n, unsigned char *ptr) {
+	SETXYR(x, y);
+	DisplayR(ptr, n);
+	SETXYR(x+1, y);
+	DisplayR(ptr+WORD_WIDE, n);
+}
+
+/* 
+ * display left n column of a two-line ascii byte at (x, y) on the left screen
+ * constraint y+n <= 64
+ */
+void ByteNcDisL(u8 x, u8 y, u8 n, unsigned char *ptr) {
+	SETXYL(x, y);
+	DisplayL(ptr, n);
+	SETXYL(x+1, y);
+	DisplayL(ptr+BYTE_WIDE, n);
+}
+
+/* 
+ * display left n column of a two-line ascii byte at (x, y) on the right screen
+ * constraint y+n <= 64
+ */
+void ByteNcDisR(u8 x, u8 y, u8 n, unsigned char *ptr) {
+	SETXYR(x, y);
+	DisplayR(ptr, n);
+	SETXYR(x+1, y);
+	DisplayR(ptr+BYTE_WIDE, n);
+}
+
+void XYZDisRollR() {
+	u8 i;
+	u8 row = 2;
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62; i <= 62; i -= 2) {
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+}
+
+void XYZDisRoll() {
+	u8 i;
+	u8 row = 2;
+	int j;
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62; i <= 62; i -= 2) {
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62, j = 2; i <= 62; i -= 2, j += 2) {
+		/* left screen */
+		WordNcDisL(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisL(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisL(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisL(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+
+		/* right screen */
+		/* 下 */
+		if (j <= 16) {
+			WordNcDisR(row, 0, 16 - j, xyz + j);
+		}
+		/* 一 */
+		if (j <= 16) {
+			WordNcDisR(row, 16 - j, 16, xyz + WORD_SIZE);
+		} else if (j > 16 && j < 32) {
+			WordNcDisR(row, 0, 16 - (j-16), xyz + WORD_SIZE + j - 16);
+		}
+		/* 站 */
+		if (j <= 32) {
+			WordNcDisR(row, 32 - j, 16, xyz + 2*WORD_SIZE);
+		} else if (j > 32 && j < 48) {
+			WordNcDisR(row, 0, 32 - (j-16), xyz + 2*WORD_SIZE + j - 32);
+		}
+		/* blank */
+		if (j <= 48) {
+			WordNcDisR(row, 48 - j, 16, xyz + 3*WORD_SIZE);
+		} else if (j > 48) {
+			WordNcDisR(row, 0, 48 - (j-16), xyz + 3*WORD_SIZE + j - 48);
+		}
+		DelayTime();
+		LCDClear();
 	}
 }

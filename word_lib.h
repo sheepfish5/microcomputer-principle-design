@@ -51,6 +51,6 @@ extern unsigned char hysybzq[];
 extern unsigned char myImg[];
 
 /* another image 64x64 */
-unsigned char myImg2[];
+extern unsigned char myImg2[];
 
 #endif

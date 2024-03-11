@@ -8,7 +8,7 @@
 
 #include "12864.h"
 #include "basic.h"
-#include "key_board_8255.h"
+#include "kb_8255.h"
 #include "word_lib.h"
 
 #define D_ORDER 1
@@ -151,15 +151,16 @@ void jinzhan(u8 station, u8 direction) {
 
 main()
 {
+	u8 station = 0;
+	u8 key_value = 0;
+	u8 direction = D_ORDER;
+
 	/* start */
 	init8255();	/* initialize 8255 */
 	LCD_INIT();
 	DisHYSY();
 	DelayTime();
 
-	u8 station = 0;
-	u8 key_value = 0;
-	u8 direction = D_ORDER;
 	while (1)
 	{
 		if (scan_any_pushed()) {
@@ -182,7 +183,7 @@ main()
 				break;
 			case 0:
 				/* ÉÏ/ÏÂÐÐ */
-				direction != direction;  /* reverse the direction */
+				direction = !direction;  /* reverse the direction */
 				break;
 			}
 		}
