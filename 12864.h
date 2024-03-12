@@ -100,4 +100,24 @@ void Dis(u8 x, u8 y, u8 flagLR, u8 wordSize, unsigned char *ptr);
 /* Display "  到了" on the right 2nd row */
 void DisDL();
 
+/* 下一站__ roll to the right screen */
+void XYZDisRollR();
+
+/* 下一站__ roll to the whole screen */
+void XYZDisRoll();
+
+/* 下一站__正正正正 roll to the whole screen */
+void JZ4DisRoll(unsigned char *ptr);
+
+/* 下一站__正正正__ roll to the whole screen */
+void JZ3DisRoll(unsigned char *ptr);
+
+/* 出站 */
+/* 正正正正__到了 roll to the whole screen */
+void CZ4DisRoll(unsigned char *ptr);
+
+/* 出站 */
+/* 正正正____到了 roll to the whole screen */
+void CZ3DisRoll(unsigned char *ptr); 
+
 #endif

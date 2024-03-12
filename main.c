@@ -24,7 +24,7 @@ void DisHYSY() {
 void chuzhan(u8 station, u8 directioin) {
 	u8 row = 2;
 	LCD_INIT();
-	Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, xyz);  /* 下一站 */
+	Dis(row, 0, LEFT_SCREEN, FOUR_WORD_LEN, xyz);  /* 下一站__ */
 	// if (station == 0) {
 	// 	Dis(row, 0, RIGHT_SCREEN, FOUR_WORD_LEN, whjd);  /* 文海酒店 */
 	// } else if (station == 1) {

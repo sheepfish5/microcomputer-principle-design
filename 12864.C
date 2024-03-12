@@ -292,6 +292,7 @@ void ByteNcDisR(u8 x, u8 y, u8 n, unsigned char *ptr) {
 	DisplayR(ptr+BYTE_WIDE, n);
 }
 
+/* 下一站__ roll to the right screen */
 void XYZDisRollR() {
 	u8 i;
 	u8 row = 2;
@@ -318,10 +319,13 @@ void XYZDisRollR() {
 	}
 }
 
+/* 下一站__ roll to the whole screen */
 void XYZDisRoll() {
 	u8 i;
 	u8 row = 2;
 	int j;
+
+	/* 下一站__ roll to the right screen */
 	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
 	for (i = 62; i <= 62; i -= 2) {
 		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
@@ -344,6 +348,7 @@ void XYZDisRoll() {
 		LCDClear();
 	}
 
+	/* 下一站__ roll to the left screen and disappear from the right */
 	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
 	for (i = 62, j = 2; i <= 62; i -= 2, j += 2) {
 		/* left screen */
@@ -386,6 +391,372 @@ void XYZDisRoll() {
 			WordNcDisR(row, 48 - j, 16, xyz + 3*WORD_SIZE);
 		} else if (j > 48) {
 			WordNcDisR(row, 0, 48 - (j-16), xyz + 3*WORD_SIZE + j - 48);
+		}
+		DelayTime();
+		LCDClear();
+	}
+}
+
+/* 下一站__正正正正 roll to the whole screen */
+void JZ4DisRoll(unsigned char *ptr) {
+	u8 i;
+	u8 row = 2;
+	int j;
+
+	/* 下一站__ roll to the whole right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62; i <= 62; i -= 2) {
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+
+	/* 下一站__ roll to the whole left screen and disappear from the right */
+	/* 正正正正 roll to the whole right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62, j = 2; i <= 62; i -= 2, j += 2) {
+		/* left screen */
+		WordNcDisL(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisL(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisL(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisL(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+
+		/* right screen */
+		/* 下 */
+		if (j <= 16) {
+			WordNcDisR(row, 0, 16 - j, xyz + j);
+		}
+		/* 一 */
+		if (j <= 16) {
+			WordNcDisR(row, 16 - j, 16, xyz + WORD_SIZE);
+		} else if (j > 16 && j < 32) {
+			WordNcDisR(row, 0, 16 - (j-16), xyz + WORD_SIZE + j - 16);
+		}
+		/* 站 */
+		if (j <= 32) {
+			WordNcDisR(row, 32 - j, 16, xyz + 2*WORD_SIZE);
+		} else if (j > 32 && j < 48) {
+			WordNcDisR(row, 0, 32 - (j-16), xyz + 2*WORD_SIZE + j - 32);
+		}
+		/* blank */
+		if (j <= 48) {
+			WordNcDisR(row, 48 - j, 16, xyz + 3*WORD_SIZE);
+		} else if (j > 48) {
+			WordNcDisR(row, 0, 48 - (j-16), xyz + 3*WORD_SIZE + j - 48);
+		}
+
+		/* right screen */
+		/* 正正正正 */
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+}
+
+/* 下一站__正正正__ roll to the whole screen */
+void JZ3DisRoll(unsigned char *ptr) {
+	u8 i;
+	u8 row = 2;
+	int j;
+
+	/* 下一站__ roll to the whole right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62; i <= 62; i -= 2) {
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+
+	/* 下一站__ roll to the whole left screen and disappear from the right */
+	/* 正正正 roll to the whole right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62, j = 2; i <= 62; i -= 2, j += 2) {
+		/* left screen */
+		WordNcDisL(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 一 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisL(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 站 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisL(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* blank */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisL(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+		}
+
+		/* right screen */
+		/* 下 */
+		if (j <= 16) {
+			WordNcDisR(row, 0, 16 - j, xyz + j);
+		}
+		/* 一 */
+		if (j <= 16) {
+			WordNcDisR(row, 16 - j, 16, xyz + WORD_SIZE);
+		} else if (j > 16 && j < 32) {
+			WordNcDisR(row, 0, 16 - (j-16), xyz + WORD_SIZE + j - 16);
+		}
+		/* 站 */
+		if (j <= 32) {
+			WordNcDisR(row, 32 - j, 16, xyz + 2*WORD_SIZE);
+		} else if (j > 32 && j < 48) {
+			WordNcDisR(row, 0, 32 - (j-16), xyz + 2*WORD_SIZE + j - 32);
+		}
+		/* blank */
+		if (j <= 48) {
+			WordNcDisR(row, 48 - j, 16, xyz + 3*WORD_SIZE);
+		} else if (j > 48) {
+			WordNcDisR(row, 0, 48 - (j-16), xyz + 3*WORD_SIZE + j - 48);
+		}
+
+		/* right screen */
+		/* 正正正 */
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		if (64 - i > 16) {
+			/* 2 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 3 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+		}
+
+		DelayTime();
+		LCDClear();
+	}
+}
+
+/* 出站 */
+/* 正正正正__到了 roll to the whole screen */
+void CZ4DisRoll(unsigned char *ptr) {
+	u8 i;
+	u8 row = 2;
+	int j;
+
+	/* 正正正正 roll to the right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62; i <= 62; i -= 2) {
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), ptr);  /* 1 */
+		if (64 - i > 16) {
+			/* 2 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), ptr+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 3 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), ptr+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* 4 */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), ptr+3*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+
+	/* 正正正正 roll to the left screen and disappear from the right */
+	/* __到了 roll to the right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62, j = 2; i <= 62; i -= 2, j += 2) {
+		/* left screen */
+		WordNcDisL(row, i, MIN(WORD_WIDE, 64-i), ptr);  /* 1 */
+		if (64 - i > 16) {
+			/* 2 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisL(row, i+16, MIN(WORD_WIDE, 48-i), ptr+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 3 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisL(row, i+32, MIN(WORD_WIDE, 32-i), ptr+2*WORD_SIZE);
+		}
+		if (64 - i > 48) {
+			/* 4 */
+			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
+			WordNcDisL(row, i+48, MIN(WORD_WIDE, 16-i), ptr+3*WORD_SIZE);
+		}
+
+		/* right screen */
+		/* 正正正正 disapear from the right */
+		/* 1 */
+		if (j <= 16) {
+			WordNcDisR(row, 0, 16 - j, ptr + j);
+		}
+		/* 2 */
+		if (j <= 16) {
+			WordNcDisR(row, 16 - j, 16, ptr + WORD_SIZE);
+		} else if (j > 16 && j < 32) {
+			WordNcDisR(row, 0, 16 - (j-16), ptr + WORD_SIZE + j - 16);
+		}
+		/* 3 */
+		if (j <= 32) {
+			WordNcDisR(row, 32 - j, 16, ptr + 2*WORD_SIZE);
+		} else if (j > 32 && j < 48) {
+			WordNcDisR(row, 0, 32 - (j-16), ptr + 2*WORD_SIZE + j - 32);
+		}
+		/* 4 */
+		if (j <= 48) {
+			WordNcDisR(row, 48 - j, 16, ptr + 3*WORD_SIZE);
+		} else if (j > 48) {
+			WordNcDisR(row, 0, 48 - (j-16), ptr + 3*WORD_SIZE + j - 48);
+		}
+
+		/* right screen */
+		/* __到了 roll to the right */
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), dl);  /* blank */
+		if (64 - i > 16) {
+			/* 到 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), dl+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 了 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), dl+2*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+}
+
+/* 出站 */
+/* 正正正____到了 roll to the whole screen */
+void CZ3DisRoll(unsigned char *ptr) {
+	u8 i;
+	u8 row = 2;
+	int j;
+
+	/* 正正正 roll to the whole right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62; i <= 62; i -= 2) {
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), ptr);  /* 下 */
+		if (64 - i > 16) {
+			/* 2 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), ptr+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 3 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), ptr+2*WORD_SIZE);
+		}
+		DelayTime();
+		LCDClear();
+	}
+
+	/* 正正正 roll to the left screen and disappear from the right */
+	/* __到了 roll to the right screen */
+	/* i = 62, 60, 58, 56, ..., 4, 2, 0 */
+	for (i = 62, j = 2; i <= 62; i -= 2, j += 2) {
+		/* left screen */
+		WordNcDisL(row, i, MIN(WORD_WIDE, 64-i), ptr);  /* 1 */
+		if (64 - i > 16) {
+			/* 2 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisL(row, i+16, MIN(WORD_WIDE, 48-i), ptr+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 3 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisL(row, i+32, MIN(WORD_WIDE, 32-i), ptr+2*WORD_SIZE);
+		}
+
+		/* right screen */
+		/* 正正正 disapear from the right */
+		/* 1 */
+		if (j <= 16) {
+			WordNcDisR(row, 0, 16 - j, ptr + j);
+		}
+		/* 2 */
+		if (j <= 16) {
+			WordNcDisR(row, 16 - j, 16, ptr + WORD_SIZE);
+		} else if (j > 16 && j < 32) {
+			WordNcDisR(row, 0, 16 - (j-16), ptr + WORD_SIZE + j - 16);
+		}
+		/* 3 */
+		if (j <= 32) {
+			WordNcDisR(row, 32 - j, 16, ptr + 2*WORD_SIZE);
+		} else if (j > 32 && j < 48) {
+			WordNcDisR(row, 0, 32 - (j-16), ptr + 2*WORD_SIZE + j - 32);
+		}
+
+		/* right screen */
+		/* __到了 roll to the right */
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), dl);  /* blank */
+		if (64 - i > 16) {
+			/* 到 */
+			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), dl+WORD_SIZE);
+		}
+		if (64 - i > 32) {
+			/* 了 */
+			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), dl+2*WORD_SIZE);
 		}
 		DelayTime();
 		LCDClear();
