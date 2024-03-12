@@ -108,18 +108,18 @@ void XYZDisRoll();
 
 /* 出站 */
 /* 下一站__正正正正 roll to the whole screen */
-void CZ4DisRoll(unsigned char *ptr);
+void CZ4DisRoll(u8 row, unsigned char *ptr);
 
 /* 出站 */
 /* 下一站__正正正__ roll to the whole screen */
-void CZ3DisRoll(unsigned char *ptr);
+void CZ3DisRoll(u8 row, unsigned char *ptr);
 
 /* 进站 */
 /* 正正正正__到了 roll to the whole screen */
-void JZ4DisRoll(unsigned char *ptr);
+void JZ4DisRoll(u8 row, unsigned char *ptr);
 
 /* 进站 */
 /* 正正正____到了 roll to the whole screen */
-void JZ3DisRoll(unsigned char *ptr); 
+void JZ3DisRoll(u8 row, unsigned char *ptr); 
 
 #endif

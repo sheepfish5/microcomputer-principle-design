@@ -398,9 +398,8 @@ void XYZDisRoll() {
 }
 
 /* 下一站__正正正正 roll to the whole screen */
-void CZ4DisRoll(unsigned char *ptr) {
+void CZ4DisRoll(u8 row, unsigned char *ptr) {
 	u8 i;
-	u8 row = 2;
 	int j;
 
 	/* 下一站__ roll to the whole right screen */
@@ -474,21 +473,21 @@ void CZ4DisRoll(unsigned char *ptr) {
 
 		/* right screen */
 		/* 正正正正 */
-		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), ptr);  /* 下 */
 		if (64 - i > 16) {
 			/* 一 */
 			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
-			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), ptr+WORD_SIZE);
 		}
 		if (64 - i > 32) {
 			/* 站 */
 			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
-			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), ptr+2*WORD_SIZE);
 		}
 		if (64 - i > 48) {
 			/* blank */
 			/* i = 14, 12, 10, 8, 6, 4, 2, 0 */
-			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), xyz+3*WORD_SIZE);
+			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), ptr+3*WORD_SIZE);
 		}
 		DelayTime();
 		LCDClear();
@@ -496,9 +495,8 @@ void CZ4DisRoll(unsigned char *ptr) {
 }
 
 /* 下一站__正正正__ roll to the whole screen */
-void CZ3DisRoll(unsigned char *ptr) {
+void CZ3DisRoll(u8 row, unsigned char *ptr) {
 	u8 i;
-	u8 row = 2;
 	int j;
 
 	/* 下一站__ roll to the whole right screen */
@@ -572,16 +570,16 @@ void CZ3DisRoll(unsigned char *ptr) {
 
 		/* right screen */
 		/* 正正正 */
-		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), xyz);  /* 下 */
+		WordNcDisR(row, i, MIN(WORD_WIDE, 64-i), ptr);  /* 下 */
 		if (64 - i > 16) {
 			/* 2 */
 			/* i = 46, 44, 42, 40, ..., 4, 2, 0 */
-			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), xyz+WORD_SIZE);
+			WordNcDisR(row, i+16, MIN(WORD_WIDE, 48-i), ptr+WORD_SIZE);
 		}
 		if (64 - i > 32) {
 			/* 3 */
 			/* i = 30, 28, 26, 24, ..., 4, 2, 0 */
-			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), xyz+2*WORD_SIZE);
+			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), ptr+2*WORD_SIZE);
 		}
 
 		DelayTime();
@@ -591,9 +589,8 @@ void CZ3DisRoll(unsigned char *ptr) {
 
 /* 进站 */
 /* 正正正正__到了 roll to the whole screen */
-void JZ4DisRoll(unsigned char *ptr) {
+void JZ4DisRoll(u8 row, unsigned char *ptr) {
 	u8 i;
-	u8 row = 2;
 	int j;
 
 	/* 正正正正 roll to the right screen */
@@ -686,9 +683,8 @@ void JZ4DisRoll(unsigned char *ptr) {
 
 /* 进站 */
 /* 正正正____到了 roll to the whole screen */
-void JZ3DisRoll(unsigned char *ptr) {
+void JZ3DisRoll(u8 row, unsigned char *ptr) {
 	u8 i;
-	u8 row = 2;
 	int j;
 
 	/* 正正正 roll to the whole right screen */

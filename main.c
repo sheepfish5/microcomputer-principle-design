@@ -30,25 +30,25 @@ void chuzhanROLL(u8 station, u8 directioin) {
 		switch (station)
 		{
 		case 0:
-			CZ4DisRoll(whjd);  /* 文海酒店 */
+			CZ4DisRoll(row, whjd);  /* 文海酒店 */
 			break;
 		case 1:
-			CZ3DisRoll(zjf);  /* 张家坊 */
+			CZ3DisRoll(row, zjf);  /* 张家坊 */
 			break;
 		case 2:
-			CZ4DisRoll(gjdq);  /* 赣江大桥 */
+			CZ4DisRoll(row, gjdq);  /* 赣江大桥 */
 			break;
 		case 3:
-			CZ3DisRoll(lsc);  /* 岭上村 */
+			CZ3DisRoll(row, lsc);  /* 岭上村 */
 			break;
 		case 4:
-			CZ4DisRoll(tjgd);  /* 天际光电 */
+			CZ4DisRoll(row, tjgd);  /* 天际光电 */
 			break;
 		case 5:
-			CZ4DisRoll(zgsh);  /* 中国石化 */
+			CZ4DisRoll(row, zgsh);  /* 中国石化 */
 			break;
 		case 6:
-			CZ4DisRoll(rayy);  /* 仁安医院 */
+			CZ4DisRoll(row, rayy);  /* 仁安医院 */
 			break;
 		}
 	} else {
@@ -56,25 +56,25 @@ void chuzhanROLL(u8 station, u8 directioin) {
 		switch (station)
 		{
 		case 1:
-			CZ3DisRoll(hcz);  /* 火车站 */
+			CZ3DisRoll(row, hcz);  /* 火车站 */
 			break;
 		case 2:
-			CZ4DisRoll(whjd);  /* 文海酒店 */
+			CZ4DisRoll(row, whjd);  /* 文海酒店 */
 			break;
 		case 3:
-			CZ3DisRoll(zjf);  /* 张家坊 */
+			CZ3DisRoll(row, zjf);  /* 张家坊 */
 			break;
 		case 4:
-			CZ4DisRoll(gjdq);  /* 赣江大桥 */
+			CZ4DisRoll(row, gjdq);  /* 赣江大桥 */
 			break;
 		case 5:
-			CZ3DisRoll(lsc);  /* 岭上村 */
+			CZ3DisRoll(row, lsc);  /* 岭上村 */
 			break;
 		case 6:
-			CZ4DisRoll(tjgd);  /* 天际光电 */
+			CZ4DisRoll(row, tjgd);  /* 天际光电 */
 			break;
 		case 7:
-			CZ4DisRoll(zgsh);  /* 中国石化 */
+			CZ4DisRoll(row, zgsh);  /* 中国石化 */
 		}
 	}
 	DelayTime();
