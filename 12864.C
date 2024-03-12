@@ -398,7 +398,7 @@ void XYZDisRoll() {
 }
 
 /* 下一站__正正正正 roll to the whole screen */
-void JZ4DisRoll(unsigned char *ptr) {
+void CZ4DisRoll(unsigned char *ptr) {
 	u8 i;
 	u8 row = 2;
 	int j;
@@ -496,7 +496,7 @@ void JZ4DisRoll(unsigned char *ptr) {
 }
 
 /* 下一站__正正正__ roll to the whole screen */
-void JZ3DisRoll(unsigned char *ptr) {
+void CZ3DisRoll(unsigned char *ptr) {
 	u8 i;
 	u8 row = 2;
 	int j;
@@ -589,9 +589,9 @@ void JZ3DisRoll(unsigned char *ptr) {
 	}
 }
 
-/* 出站 */
+/* 进站 */
 /* 正正正正__到了 roll to the whole screen */
-void CZ4DisRoll(unsigned char *ptr) {
+void JZ4DisRoll(unsigned char *ptr) {
 	u8 i;
 	u8 row = 2;
 	int j;
@@ -684,9 +684,9 @@ void CZ4DisRoll(unsigned char *ptr) {
 	}
 }
 
-/* 出站 */
+/* 进站 */
 /* 正正正____到了 roll to the whole screen */
-void CZ3DisRoll(unsigned char *ptr) {
+void JZ3DisRoll(unsigned char *ptr) {
 	u8 i;
 	u8 row = 2;
 	int j;
