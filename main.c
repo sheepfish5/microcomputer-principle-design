@@ -20,6 +20,67 @@ void DisHYSY() {
 	Dis(2, 0, RIGHT_SCREEN, THREE_WORD_LEN, &hysybzq[4*WORD_SIZE]);
 }
 
+/* "出站" function with rolling */
+void chuzhanROLL(u8 station, u8 directioin) {
+	u8 row = 2;
+	LCD_INIT();
+	if (directioin == D_ORDER)
+	{
+		/* in order: from 0火车站 to 7仁安医院 */
+		switch (station)
+		{
+		case 0:
+			CZ4DisRoll(whjd);  /* 文海酒店 */
+			break;
+		case 1:
+			CZ3DisRoll(zjf);  /* 张家坊 */
+			break;
+		case 2:
+			CZ4DisRoll(gjdq);  /* 赣江大桥 */
+			break;
+		case 3:
+			CZ3DisRoll(lsc);  /* 岭上村 */
+			break;
+		case 4:
+			CZ4DisRoll(tjgd);  /* 天际光电 */
+			break;
+		case 5:
+			CZ4DisRoll(zgsh);  /* 中国石化 */
+			break;
+		case 6:
+			CZ4DisRoll(rayy);  /* 仁安医院 */
+			break;
+		}
+	} else {
+		/* reverse order: from 7仁安医院 to 0火车站 */
+		switch (station)
+		{
+		case 1:
+			CZ3DisRoll(hcz);  /* 火车站 */
+			break;
+		case 2:
+			CZ4DisRoll(whjd);  /* 文海酒店 */
+			break;
+		case 3:
+			CZ3DisRoll(zjf);  /* 张家坊 */
+			break;
+		case 4:
+			CZ4DisRoll(gjdq);  /* 赣江大桥 */
+			break;
+		case 5:
+			CZ3DisRoll(lsc);  /* 岭上村 */
+			break;
+		case 6:
+			CZ4DisRoll(tjgd);  /* 天际光电 */
+			break;
+		case 7:
+			CZ4DisRoll(zgsh);  /* 中国石化 */
+		}
+	}
+	DelayTime();
+	DelayTime();
+}
+
 /* "出站" function */
 void chuzhan(u8 station, u8 directioin) {
 	u8 row = 2;
