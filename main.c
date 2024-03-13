@@ -210,6 +210,16 @@ void jinzhan(u8 station, u8 direction) {
 	DelayTime();
 }
 
+/* show advertisement */
+void guanggao() {
+	LCDClear();
+	DisIMG();
+	DisIMG2();
+	DelayTime();
+	DelayTime();
+	DelayTime();
+}
+
 main()
 {
 	u8 station = 0;
@@ -232,9 +242,35 @@ main()
 			// }
 			switch (key_value)
 			{
+			case 0:
+				/* 上/下行 */
+				direction = !direction;  /* reverse the direction */
+				break;
+			case 1:
+				/* 进一站 */
+				if (direction == D_ORDER) {
+					station++;
+				} else {
+					station--;
+				}
+				station &= 0x7;
+				break;
 			case 2:
 				/* 出站 */
 				chuzhan(station, direction);
+				break;
+			case 4:
+				/* 广告 */
+				guanggao();
+				break;
+			case 5:
+				/* 退一站 */
+				if (direction == D_REVERSE) {
+					station--;
+				} else {
+					station++;
+				}
+				station &= 0x7;
 				break;
 			case 6:
 				/* 进站 */
@@ -242,10 +278,7 @@ main()
 				station++;
 				station &= 0x7;
 				break;
-			case 0:
-				/* 上/下行 */
-				direction = !direction;  /* reverse the direction */
-				break;
+
 			}
 		}
 	}

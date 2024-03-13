@@ -122,4 +122,10 @@ void JZ4DisRoll(u8 row, unsigned char *ptr);
 /* 正正正____到了 roll to the whole screen */
 void JZ3DisRoll(u8 row, unsigned char *ptr); 
 
+/* Display a image on the left LCD */
+void DisIMG();
+
+/* Display a image on the right LCD */
+void DisIMG2();
+
 #endif
