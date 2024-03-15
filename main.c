@@ -11,6 +11,9 @@
 #include "kb_8255.h"
 #include "word_lib.h"
 
+#define	IO8259_0	0x250
+#define	IO8259_1	0x251
+
 #define D_ORDER 1
 #define D_REVERSE 0
 
@@ -23,6 +26,86 @@ void delayLittle() {
 		for (j = 0; j < 0xf000; j++)
 		{;}
 	}
+}
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+
+/* Display "欢迎使用报站器" */
+void DisHYSY();
+
+/* "出站" function with rolling */
+void chuzhanROLL(u8 station, u8 directioin);
+
+/* "出站" function */
+void chuzhan(u8 station, u8 directioin);
+
+/* "进站" function */
+void jinzhan(u8 station, u8 direction);
+
+/* show advertisement */
+void guanggao();
+
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+
+/* initialize 8259 */
+void Init8259()
+{
+	outportb(IO8259_0,0x12);  /* ICW1 */
+	outportb(IO8259_1,0x8);	  /* ICW2 */
+	outportb(IO8259_1,0xfe);  /* OCW1 */
+}
+
+u8 g_direction = D_ORDER;
+u8 g_station = 0;
+
+/* core interrupt handler */
+void interrupt INT_0x8(void)
+{
+	u8 key_value;
+	if (scan_any_pushed()) {
+		key_value = get_key_value();
+		switch (key_value)
+		{
+		case 0:
+			/* 上/下行 */
+			g_direction = !g_direction;  /* reverse the direction */
+			break;
+		case 1:
+			/* 进一站 */
+			if (g_direction == D_ORDER) {
+				g_station++;
+			} else {
+				g_station--;
+			}
+			g_station &= 0x7;
+			break;
+		case 2:
+			/* 出站 */
+			chuzhan(g_station, g_direction);
+			break;
+		case 4:
+			/* 广告 */
+			guanggao();
+			break;
+		case 5:
+			/* 退一站 */
+			if (g_direction == D_REVERSE) {
+				g_station--;
+			} else {
+				g_station++;
+			}
+			g_station &= 0x7;
+			break;
+		case 6:
+			/* 进站 */
+			jinzhan(g_station, g_direction);
+			g_station++;
+			g_station &= 0x7;
+			break;
+		}
+	}
+	outportb(IO8259_0,0x20);  /* general EOI */
 }
 
 /* Display "欢迎使用报站器" */
@@ -327,3 +410,20 @@ main()
 	
 }
 
+void main_8259() {
+	disable();					//关中断
+	/* start */
+	/* ------changes for 8259------ */
+	Init8259(); /* 8259 */
+	setvect(8, INT_0x8);			//初始化中断向量, 8:第8号中断向量,INT_0:中断处理程序
+	/* ---------------------------- */
+	init8255();	/* initialize 8255 */
+	LCD_INIT();
+	DisHYSY();
+	DelayTime();
+	enable();					//开中断
+	while(1)
+	{
+		;
+	}
+}
