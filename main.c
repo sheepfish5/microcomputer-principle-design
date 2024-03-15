@@ -45,14 +45,21 @@ void jinzhan(u8 station, u8 direction);
 /* show advertisement */
 void guanggao();
 
+void reverseDirection(unsigned char *station, unsigned char *direction);
+
+void nextStation(unsigned char *station, unsigned char *direction);
+
+void prevStation(unsigned char *station, unsigned char *direction);
+
 /* ----------------------------------------------------- */
 /* ----------------------------------------------------- */
 
 /* initialize 8259 */
 void Init8259()
 {
-	outportb(IO8259_0,0x12);  /* ICW1 */
+	outportb(IO8259_0,0x13);  /* ICW1 */
 	outportb(IO8259_1,0x8);	  /* ICW2 */
+	outportb(IO8259_1,0x9);	  /* ICW3 */
 	outportb(IO8259_1,0xfe);  /* OCW1 */
 }
 
@@ -69,16 +76,13 @@ void interrupt INT_0x8(void)
 		{
 		case 0:
 			/* 上/下行 */
-			g_direction = !g_direction;  /* reverse the direction */
+			reverseDirection(&g_station, &g_direction);  /* reverse the direction */
+			delayLittle();
 			break;
 		case 1:
 			/* 进一站 */
-			if (g_direction == D_ORDER) {
-				g_station++;
-			} else {
-				g_station--;
-			}
-			g_station &= 0x7;
+			nextStation(&g_station, &g_direction);
+			delayLittle();
 			break;
 		case 2:
 			/* 出站 */
@@ -90,18 +94,14 @@ void interrupt INT_0x8(void)
 			break;
 		case 5:
 			/* 退一站 */
-			if (g_direction == D_REVERSE) {
-				g_station--;
-			} else {
-				g_station++;
-			}
-			g_station &= 0x7;
+			prevStation(&g_station, &g_direction);
+			delayLittle();
 			break;
 		case 6:
 			/* 进站 */
 			jinzhan(g_station, g_direction);
-			g_station++;
-			g_station &= 0x7;
+			nextStation(&g_station, &g_direction);
+			delayLittle();
 			break;
 		}
 	}
@@ -357,7 +357,7 @@ void reverseDirection(unsigned char *station, unsigned char *direction) {
 	*direction = !(*direction);
 }
 
-main()
+void main_query()
 {
 	u8 station = 0;
 	u8 key_value = 0;
@@ -410,7 +410,8 @@ main()
 	
 }
 
-void main_8259() {
+/* use interrupt */
+void main() {
 	disable();					//关中断
 	/* start */
 	/* ------changes for 8259------ */
@@ -424,6 +425,6 @@ void main_8259() {
 	enable();					//开中断
 	while(1)
 	{
-		;
+		outportb(PB_Addr, 0x0);
 	}
 }
