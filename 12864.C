@@ -490,7 +490,8 @@ void CZ4DisRoll(u8 row, unsigned char *ptr) {
 			WordNcDisR(row, i+48, MIN(WORD_WIDE, 16-i), ptr+3*WORD_SIZE);
 		}
 		DelayTime();
-		LCDClear();
+		if (i != 0) 
+			LCDClear();
 	}
 }
 
@@ -583,7 +584,8 @@ void CZ3DisRoll(u8 row, unsigned char *ptr) {
 		}
 
 		DelayTime();
-		LCDClear();
+		if (i != 0) 
+			LCDClear();
 	}
 }
 
@@ -677,7 +679,8 @@ void JZ4DisRoll(u8 row, unsigned char *ptr) {
 			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), dl+2*WORD_SIZE);
 		}
 		DelayTime();
-		LCDClear();
+		if (i != 0)
+			LCDClear();
 	}
 }
 
@@ -755,6 +758,7 @@ void JZ3DisRoll(u8 row, unsigned char *ptr) {
 			WordNcDisR(row, i+32, MIN(WORD_WIDE, 32-i), dl+2*WORD_SIZE);
 		}
 		DelayTime();
-		LCDClear();
+		if (i != 0)
+			LCDClear();
 	}
 }

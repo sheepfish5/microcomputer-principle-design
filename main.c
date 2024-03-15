@@ -357,7 +357,7 @@ void reverseDirection(unsigned char *station, unsigned char *direction) {
 	*direction = !(*direction);
 }
 
-void main_query()
+void main()
 {
 	u8 station = 0;
 	u8 key_value = 0;
@@ -387,7 +387,7 @@ void main_query()
 				break;
 			case 2:
 				/* 出站 */
-				chuzhan(station, direction);
+				chuzhanROLL(station, direction);
 				break;
 			case 4:
 				/* 广告 */
@@ -411,7 +411,7 @@ void main_query()
 }
 
 /* use interrupt */
-void main() {
+void main_8259() {
 	disable();					//关中断
 	/* start */
 	/* ------changes for 8259------ */
