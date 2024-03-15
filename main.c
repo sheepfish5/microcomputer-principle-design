@@ -14,6 +14,17 @@
 #define D_ORDER 1
 #define D_REVERSE 0
 
+/* discard "shake" when the keys are pushed */
+void delayLittle() {
+	unsigned char i;
+	unsigned int j;
+	for (i = 0; i < 2; i++)
+	{
+		for (j = 0; j < 0xf000; j++)
+		{;}
+	}
+}
+
 /* Display "欢迎使用报站器" */
 void DisHYSY() {
 	Dis(2, 0, LEFT_SCREEN, FOUR_WORD_LEN, hysybzq);
@@ -220,6 +231,49 @@ void guanggao() {
 	DelayTime();
 }
 
+void nextStation(unsigned char *station, unsigned char *direction) {
+	/* 进一站 */
+	if (*direction == D_ORDER) {
+		(*station)++;
+		if (*station == 7) {
+			/* already arrived at the final station */
+			*direction = D_REVERSE;
+		}
+	} else {
+		(*station)--;
+		if (*station == 0) {
+			/* already arrived at the original station */
+			*direction = D_ORDER;
+		}
+	}
+	(*station) &= 0x7;
+}
+
+void prevStation(unsigned char *station, unsigned char *direction) {
+	/* in order and the station is the original now. there is no previous station */
+	if (*direction == D_ORDER && *station == 0)
+		return ;
+	
+	/* in reverse order and the station is the final now. there is no previous station */
+	if (*direction == D_REVERSE && *station == 7) 
+		return ;
+	
+	if (*direction == D_ORDER) {
+		(*station)--;
+	} else {
+		(*station)++;
+	}
+	*station &= 0x7;
+}
+
+void reverseDirection(unsigned char *station, unsigned char *direction) {
+	if (*station == 0 && *direction == D_ORDER) 
+		return ;
+	if (*station == 7 && *direction == D_REVERSE) 
+		return ;
+	*direction = !(*direction);
+}
+
 main()
 {
 	u8 station = 0;
@@ -236,24 +290,17 @@ main()
 	{
 		if (scan_any_pushed()) {
 			key_value = get_key_value();
-			// if (key_value == 2) {
-			// 	/* 出站 */
-			// 	chuzhan(station);
-			// }
 			switch (key_value)
 			{
 			case 0:
 				/* 上/下行 */
-				direction = !direction;  /* reverse the direction */
+				reverseDirection(&station, &direction);  /* reverse the direction */
+				delayLittle();
 				break;
 			case 1:
 				/* 进一站 */
-				if (direction == D_ORDER) {
-					station++;
-				} else {
-					station--;
-				}
-				station &= 0x7;
+				nextStation(&station, &direction);
+				delayLittle();
 				break;
 			case 2:
 				/* 出站 */
@@ -265,20 +312,15 @@ main()
 				break;
 			case 5:
 				/* 退一站 */
-				if (direction == D_REVERSE) {
-					station--;
-				} else {
-					station++;
-				}
-				station &= 0x7;
+				prevStation(&station, &direction);
+				delayLittle();
 				break;
 			case 6:
 				/* 进站 */
 				jinzhan(station, direction);
-				station++;
-				station &= 0x7;
+				nextStation(&station, &direction);
+				delayLittle();
 				break;
-
 			}
 		}
 	}

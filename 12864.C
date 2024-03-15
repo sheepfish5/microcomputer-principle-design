@@ -178,13 +178,13 @@ void LCD_INIT()
 //延时程序
 void DelayTime()
 {
-	unsigned char i;
-	unsigned int j;
-	for (i = 0; i < 3; i++)
-	{
-		for (j = 0; j < 0xffff; j++)
-		{;}
-	}
+	// unsigned char i;
+	// unsigned int j;
+	// for (i = 0; i < 3; i++)
+	// {
+	// 	for (j = 0; j < 0xffff; j++)
+	// 	{;}
+	// }
 }
 
 /* Display "下一站  " on the left 2nd row */
