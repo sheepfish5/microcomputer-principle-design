@@ -30,10 +30,11 @@
 
 u8 KeepMode;						//保存REC、PLAYE、PLAYL当前值
 
+/* mode must be from 0 to 7 */
 void write_mode(u8 mode) {
 	SET_REC(mode & 0x1);
-	SET_PLAYE(mode & 0x2);
-	SET_PLAYL(mode & 0x4);
+	SET_PLAYE((mode & 0x2) >> 1);
+	SET_PLAYL((mode & 0x4) >> 2);
 }
 
 //延时
