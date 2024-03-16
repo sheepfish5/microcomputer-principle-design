@@ -5,6 +5,11 @@
 #define u8 unsigned char
 #define u16	unsigned int 
 
+#define PA_Addr		0x270
+#define PB_Addr		0x271
+#define PC_Addr		0x272
+#define	CON_Addr	0x273
+
 #define MIN(x,y)  ((x) > (y) ? (y) : (x))
 
 extern void outportb( unsigned int, char);
