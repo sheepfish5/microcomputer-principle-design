@@ -230,8 +230,24 @@ void DisDL() {
 	Dis(2, 0, RIGHT_SCREEN, THREE_WORD_LEN, dl);
 }
 
+/* general function: Display a image on the left LCD */
+void DisIMGl(unsigned char *img) {
+	u16 i = 0;
+	for (; i<8; i++) {
+		LineDisL(i, 0, &img[i*64]);
+	}
+}
+
+/* general function: Display a image on the right LCD */
+void DisIMGr(unsigned char *img) {
+	u16 i = 0;
+	for (; i<8; i++) {
+		LineDisR(i, 0, &img[i*64]);
+	}
+}
+
 /* Display a image on the left LCD */
-void DisIMG() {
+void DisIMG1() {
 	u16 i = 0;
 	for (; i<8; i++) {
 		LineDisL(i, 0, &myImg[i*64]);

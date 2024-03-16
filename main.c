@@ -67,46 +67,46 @@ u8 g_direction = D_ORDER;
 u8 g_station = 0;
 
 /* core interrupt handler */
-void interrupt INT_0x8(void)
-{
-	u8 key_value;
-	if (scan_any_pushed()) {
-		key_value = get_key_value();
-		switch (key_value)
-		{
-		case 0:
-			/* 上/下行 */
-			reverseDirection(&g_station, &g_direction);  /* reverse the direction */
-			delayLittle();
-			break;
-		case 1:
-			/* 进一站 */
-			nextStation(&g_station, &g_direction);
-			delayLittle();
-			break;
-		case 2:
-			/* 出站 */
-			chuzhan(g_station, g_direction);
-			break;
-		case 4:
-			/* 广告 */
-			guanggao();
-			break;
-		case 5:
-			/* 退一站 */
-			prevStation(&g_station, &g_direction);
-			delayLittle();
-			break;
-		case 6:
-			/* 进站 */
-			jinzhan(g_station, g_direction);
-			nextStation(&g_station, &g_direction);
-			delayLittle();
-			break;
-		}
-	}
-	outportb(IO8259_0,0x20);  /* general EOI */
-}
+// void interrupt INT_0x8(void)
+// {
+// 	u8 key_value;
+// 	if (scan_any_pushed()) {
+// 		key_value = get_key_value();
+// 		switch (key_value)
+// 		{
+// 		case 0:
+// 			/* 上/下行 */
+// 			reverseDirection(&g_station, &g_direction);  /* reverse the direction */
+// 			delayLittle();
+// 			break;
+// 		case 1:
+// 			/* 进一站 */
+// 			nextStation(&g_station, &g_direction);
+// 			delayLittle();
+// 			break;
+// 		case 2:
+// 			/* 出站 */
+// 			chuzhan(g_station, g_direction);
+// 			break;
+// 		case 4:
+// 			/* 广告 */
+// 			guanggao();
+// 			break;
+// 		case 5:
+// 			/* 退一站 */
+// 			prevStation(&g_station, &g_direction);
+// 			delayLittle();
+// 			break;
+// 		case 6:
+// 			/* 进站 */
+// 			jinzhan(g_station, g_direction);
+// 			nextStation(&g_station, &g_direction);
+// 			delayLittle();
+// 			break;
+// 		}
+// 	}
+// 	outportb(IO8259_0,0x20);  /* general EOI */
+// }
 
 /* Display "欢迎使用报站器" */
 void DisHYSY() {
@@ -305,10 +305,26 @@ void jinzhan(u8 station, u8 direction) {
 }
 
 /* show advertisement */
-void guanggao() {
+void guanggao(u8 status) {
 	LCDClear();
-	DisIMG();
-	DisIMG2();
+	switch (status)
+	{
+	case 0:
+		DisIMGl(myImg);
+		DisIMGr(myImg2);
+		break;
+	case 1:
+		DisIMGl(myImg3);
+		DisIMGr(myImg4);
+		break;
+	case 2:
+		DisIMGl(myImg5);
+		DisIMGr(myImg6);
+		break;
+	}
+
+	// DisIMG1();
+	// DisIMG2();
 	DelayTime();
 	DelayTime();
 	DelayTime();
@@ -362,6 +378,7 @@ void main()
 	u8 station = 0;
 	u8 key_value = 0;
 	u8 direction = D_ORDER;
+	u8 guanggao_status = 0;
 
 	/* start */
 	init8255();	/* initialize 8255 */
@@ -391,7 +408,10 @@ void main()
 				break;
 			case 4:
 				/* 广告 */
-				guanggao();
+				guanggao(guanggao_status);
+				guanggao_status++;
+				guanggao_status %= 3;
+				delayLittle();
 				break;
 			case 5:
 				/* 退一站 */
@@ -416,7 +436,7 @@ void main_8259() {
 	/* start */
 	/* ------changes for 8259------ */
 	Init8259(); /* 8259 */
-	setvect(8, INT_0x8);			//初始化中断向量, 8:第8号中断向量,INT_0:中断处理程序
+	// setvect(8, INT_0x8);			//初始化中断向量, 8:第8号中断向量,INT_0:中断处理程序
 	/* ---------------------------- */
 	init8255();	/* initialize 8255 */
 	LCD_INIT();

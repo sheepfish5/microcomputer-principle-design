@@ -53,4 +53,12 @@ extern unsigned char myImg[];
 /* another image 64x64 */
 extern unsigned char myImg2[];
 
+extern unsigned char myImg3[];
+
+extern unsigned char myImg4[];
+
+extern unsigned char myImg5[];
+
+extern unsigned char myImg6[];
+
 #endif
