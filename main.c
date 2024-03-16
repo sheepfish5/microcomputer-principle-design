@@ -65,48 +65,53 @@ void Init8259()
 
 u8 g_direction = D_ORDER;
 u8 g_station = 0;
+u8 g_guanggao_status = 0;
 
 /* core interrupt handler */
-// void interrupt INT_0x8(void)
-// {
-// 	u8 key_value;
-// 	if (scan_any_pushed()) {
-// 		key_value = get_key_value();
-// 		switch (key_value)
-// 		{
-// 		case 0:
-// 			/* 上/下行 */
-// 			reverseDirection(&g_station, &g_direction);  /* reverse the direction */
-// 			delayLittle();
-// 			break;
-// 		case 1:
-// 			/* 进一站 */
-// 			nextStation(&g_station, &g_direction);
-// 			delayLittle();
-// 			break;
-// 		case 2:
-// 			/* 出站 */
-// 			chuzhan(g_station, g_direction);
-// 			break;
-// 		case 4:
-// 			/* 广告 */
-// 			guanggao();
-// 			break;
-// 		case 5:
-// 			/* 退一站 */
-// 			prevStation(&g_station, &g_direction);
-// 			delayLittle();
-// 			break;
-// 		case 6:
-// 			/* 进站 */
-// 			jinzhan(g_station, g_direction);
-// 			nextStation(&g_station, &g_direction);
-// 			delayLittle();
-// 			break;
-// 		}
-// 	}
-// 	outportb(IO8259_0,0x20);  /* general EOI */
-// }
+void interrupt INT_0x8(void)
+{
+	u8 key_value;
+	if (scan_any_pushed()) {
+		key_value = get_key_value();
+		switch (key_value)
+		{
+		case 0:
+			/* 上/下行 */
+			reverseDirection(&g_station, &g_direction);  /* reverse the direction */
+			delayLittle();
+			break;
+		case 1:
+			/* 进一站 */
+			nextStation(&g_station, &g_direction);
+			delayLittle();
+			break;
+		case 2:
+			/* 出站 */
+			chuzhanROLL(g_station, g_direction);
+			delayLittle();  /* add for delaying the interrupt handler */
+			break;
+		case 4:
+			/* 广告 */
+			guanggao(g_guanggao_status);
+			g_guanggao_status++;
+			g_guanggao_status %= 3;
+			delayLittle();
+			break;
+		case 5:
+			/* 退一站 */
+			prevStation(&g_station, &g_direction);
+			delayLittle();
+			break;
+		case 6:
+			/* 进站 */
+			jinzhan(g_station, g_direction);
+			nextStation(&g_station, &g_direction);
+			delayLittle();
+			break;
+		}
+	}
+	outportb(IO8259_0,0x20);  /* general EOI */
+}
 
 /* Display "欢迎使用报站器" */
 void DisHYSY() {
@@ -373,7 +378,7 @@ void reverseDirection(unsigned char *station, unsigned char *direction) {
 	*direction = !(*direction);
 }
 
-void main()
+void main_old()
 {
 	u8 station = 0;
 	u8 key_value = 0;
@@ -431,12 +436,12 @@ void main()
 }
 
 /* use interrupt */
-void main_8259() {
+void main() {
 	disable();					//关中断
 	/* start */
 	/* ------changes for 8259------ */
 	Init8259(); /* 8259 */
-	// setvect(8, INT_0x8);			//初始化中断向量, 8:第8号中断向量,INT_0:中断处理程序
+	setvect(8, INT_0x8);			//初始化中断向量, 8:第8号中断向量,INT_0:中断处理程序
 	/* ---------------------------- */
 	init8255();	/* initialize 8255 */
 	LCD_INIT();
