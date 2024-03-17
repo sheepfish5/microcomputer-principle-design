@@ -116,10 +116,21 @@ void playISD(u8 startadr)
 	KeepMode = i;
 }
 
-//放音
+//play for 2 sec
 void KEY_PLAY(u8 startadr)
 {
 	u16 count = 8;  /* release the voice for 2 sec */
+	playISD(startadr);							//调用录音子程序
+	while (count--)
+	{
+		Delay_025S();					//延时
+	}
+}
+
+//play for 4 sec
+void KEY_PLAY4(u8 startadr)
+{
+	u16 count = 16;  /* release the voice for 4 sec */
 	playISD(startadr);							//调用录音子程序
 	while (count--)
 	{

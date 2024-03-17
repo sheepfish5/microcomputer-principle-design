@@ -1,5 +1,8 @@
 #include "basic.h"
 
+#ifndef ISD1420_H
+#define ISD1420_H
+
 #define VOICE_1_0x00 0x00
 #define VOICE_2_0x10 0x10
 #define VOICE_3_0x20 0x20
@@ -34,3 +37,8 @@ void playISD(u8 startadr);
 
 //∑≈“Ù
 void KEY_PLAY(u8 startadr);
+
+//play for 4 sec
+void KEY_PLAY4(u8 startadr);
+
+#endif

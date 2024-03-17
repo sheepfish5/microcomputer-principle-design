@@ -389,7 +389,7 @@ void guanggao(u8 status) {
 }
 
 void guanggaoVOICE() {
-	KEY_PLAY(VOICE_AD_0x80);
+	KEY_PLAY4(VOICE_AD_0x80);
 }
 
 void nextStation(unsigned char *station, unsigned char *direction) {
