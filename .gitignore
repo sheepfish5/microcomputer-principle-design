@@ -56,5 +56,5 @@ dkms.conf
 .vscode/
 *.dob
 *.frm
-*.prv
+# *.prv
 *.sym

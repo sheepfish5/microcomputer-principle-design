@@ -43,7 +43,7 @@ u8 scan_any_pushed()
 {
 	u8 i;
 	outportb(PB_Addr, 0x0);
-	i = (~inportb(PC_Addr) & 0x3);
+	i = (~inportb(PC_Addr) & 0x1);
 	return i;
 }
 

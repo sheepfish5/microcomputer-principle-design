@@ -66,7 +66,7 @@ void Init8259()
 {
 	outportb(IO8259_0,0x13);  /* ICW1 */
 	outportb(IO8259_1,0x8);	  /* ICW2 */
-	outportb(IO8259_1,0x9);	  /* ICW3 */
+	outportb(IO8259_1,0x9);	  /* ICW4 */
 	outportb(IO8259_1,0xfe);  /* OCW1 */
 }
 
